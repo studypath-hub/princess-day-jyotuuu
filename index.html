@@ -1,1152 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Princess Day, Jyotuuu 👑</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cinzel Decorative, Great Vibes, Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Tone.js for gentle magical chimes fallback -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Princess Day Meri Jyotuuu 👑💗</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-day-1: #fff0f6;
+      --bg-day-2: #f8e8ff;
+      --bg-day-3: #ffe3ec;
+      --pink-deep: #d63384;
+      --pink-soft: #ff758f;
+      --purple-royal: #7b2cbf;
+      --gold: #f5b700;
+      --gold-light: #ffe066;
+      --text-dark: #3b1c32;
+      --card-bg: rgba(255, 255, 255, 0.85);
+    }
 
-    <style>
-        :root {
-            --gold-light: #fef08a;
-            --gold-mid: #f59e0b;
-            --gold-dark: #b45309;
-            --pink-soft: #fdf2f8;
-            --lavender-soft: #f3e8ff;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #fff1f2 0%, #fce7f3 35%, #f3e8ff 70%, #fef9c3 100%);
-            color: #4a1d34;
-            overflow-x: hidden;
-            transition: background 1.5s ease, color 1.2s ease;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-day-1), var(--bg-day-2), var(--bg-day-3));
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 1.2s ease, color 1s ease;
+      padding-bottom: 110px;
+    }
 
-        /* Starry Night Mode when Lantern Show is active */
-        body.lantern-night {
-            background: radial-gradient(ellipse at bottom, #1e1b4b 0%, #090a0f 100%);
-            color: #fdf4ff;
-        }
+    body.night-mode {
+      background: radial-gradient(circle at top, #1f1135 0%, #0d061a 60%, #05020a 100%);
+      color: #fff5fb;
+    }
 
-        .font-royal {
-            font-family: 'Cinzel Decorative', serif;
-        }
+    /* Floating Sparkles & Petals */
+    #ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
 
-        .font-script {
-            font-family: 'Great Vibes', cursive;
-        }
+    .petal {
+      position: absolute;
+      top: -30px;
+      font-size: 18px;
+      opacity: 0.75;
+      animation: fall linear infinite;
+    }
 
-        /* Floating Crown Animation */
-        @keyframes floatCrown {
-            0%, 100% { transform: translateY(0px) rotate(0deg); filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.75)); }
-            50% { transform: translateY(-10px) rotate(1.5deg); filter: drop-shadow(0 0 32px rgba(251, 191, 36, 0.95)); }
-        }
+    @keyframes fall {
+      0% { transform: translateY(-30px) rotate(0deg); opacity: 0.9; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
 
-        .crown-glow {
-            animation: floatCrown 4s ease-in-out infinite;
-        }
+    /* Lantern Show Container */
+    #lantern-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 40;
+      overflow: hidden;
+    }
 
-        /* Sparkle Twinkle */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.7); }
-            50% { opacity: 1; transform: scale(1.25); }
-        }
+    .lantern {
+      position: absolute;
+      bottom: -80px;
+      width: 34px;
+      height: 46px;
+      background: radial-gradient(circle at 50% 60%, #fff3b0, #ff9f1c 65%, #e36414 100%);
+      border-radius: 10px 10px 6px 6px;
+      box-shadow: 0 0 22px #ffbe0b, 0 0 45px rgba(255, 159, 28, 0.65);
+      animation: floatLantern linear forwards;
+    }
 
-        .sparkle-dot {
-            animation: twinkle 2.4s infinite ease-in-out;
-        }
+    .lantern::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 25%;
+      width: 50%;
+      height: 4px;
+      background: #7f4f24;
+      border-radius: 2px;
+    }
 
-        /* Upright Rotated Photo Frame Styling (3:4 portrait frame cropping out top/bottom Snapchat UI bars) */
-        .photo-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            overflow: hidden;
-            border-radius: 1.25rem;
-            background: linear-gradient(135deg, #fbcfe8, #e9d5ff, #fef08a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    @keyframes floatLantern {
+      0% { transform: translateY(0) translateX(0) scale(0.85); opacity: 0; }
+      15% { opacity: 1; }
+      50% { transform: translateY(-55vh) translateX(25px) scale(1); }
+      100% { transform: translateY(-120vh) translateX(-20px) scale(0.75); opacity: 0; }
+    }
 
-        .upright-photo {
-            /* Source images are sideways phone screenshots (head on the right).
-               Rotating 90deg clockwise + scaling crops out the top/bottom Snapchat UI cleanly. */
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 45%;
-            transform: rotate(90deg) scale(1.45);
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+    .container {
+      position: relative;
+      z-index: 5;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 28px 16px;
+    }
 
-        .upright-photo.custom-uploaded {
-            /* If user uploads a normal upright gallery photo via the Change Photo button */
-            transform: rotate(0deg) scale(1);
-            object-position: center center;
-        }
+    /* Hero & Rapunzel Crown */
+    .hero {
+      text-align: center;
+      padding: 28px 18px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      border: 2px solid rgba(245, 183, 0, 0.45);
+      box-shadow: 0 15px 40px rgba(214, 51, 132, 0.16);
+      margin-bottom: 26px;
+      transition: background 1s ease;
+    }
 
-        .photo-card:hover .upright-photo {
-            transform: rotate(90deg) scale(1.52);
-        }
+    body.night-mode .hero,
+    body.night-mode .card {
+      background: rgba(29, 17, 52, 0.85);
+      border-color: rgba(255, 224, 102, 0.45);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
+    }
 
-        .photo-card:hover .upright-photo.custom-uploaded {
-            transform: rotate(0deg) scale(1.06);
-        }
+    .crown-wrap {
+      display: inline-block;
+      animation: floatCrown 3s ease-in-out infinite;
+      margin-bottom: 8px;
+    }
 
-        /* Envelope Animation */
-        .envelope-flap {
-            transform-origin: top center;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    @keyframes floatCrown {
+      0%, 100% { transform: translateY(0px) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
 
-        .envelope-open .envelope-flap {
-            transform: rotateX(180deg);
-        }
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff758f, #9d4edd);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
 
-        /* Pikachu Bounce */
-        @keyframes pikaBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            30% { transform: translateY(-18px) scale(1.04, 0.96); }
-            50% { transform: translateY(0) scale(0.97, 1.03); }
-            70% { transform: translateY(-8px) scale(1.02, 0.98); }
-        }
+    h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.65rem, 5vw, 2.5rem);
+      background: linear-gradient(90deg, #d63384, #7b2cbf, #d97706);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
 
-        .pika-animate {
-            animation: pikaBounce 1.4s ease-in-out infinite;
-        }
+    body.night-mode h1 {
+      background: linear-gradient(90deg, #ff8fa3, #ffe066, #e0aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        /* Golden Shimmer for Activated Pass */
-        @keyframes shimmerSweep {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
+    .subtitle {
+      font-size: 0.98rem;
+      opacity: 0.9;
+      max-width: 540px;
+      margin: 0 auto 18px;
+    }
 
-        .vip-pass-active {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef08a 25%, #fde047 50%, #fef08a 75%, #fffbeb 100%);
-            background-size: 200% auto;
-            animation: shimmerSweep 4s linear infinite;
-            box-shadow: 0 20px 50px -10px rgba(245, 158, 11, 0.55), 0 0 0 3px #f59e0b;
-        }
+    .crown-btn {
+      background: linear-gradient(135deg, #f5b700, #ff8500);
+      color: #2b1200;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(245, 183, 0, 0.45);
+      transition: transform 0.2s;
+    }
 
-        /* Glassmorphism Cards */
-        .royal-glass {
-            background: rgba(255, 255, 255, 0.78);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(251, 207, 232, 0.85);
-            box-shadow: 0 15px 35px -5px rgba(219, 39, 119, 0.12);
-            transition: all 0.5s ease;
-        }
+    .crown-btn:active { transform: scale(0.96); }
 
-        body.lantern-night .royal-glass {
-            background: rgba(30, 27, 75, 0.65);
-            border-color: rgba(251, 191, 36, 0.35);
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
-        }
+    /* Section Cards */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 26px;
+      padding: 24px 18px;
+      margin-bottom: 24px;
+      border: 1.5px solid rgba(214, 51, 132, 0.22);
+      box-shadow: 0 12px 32px rgba(123, 44, 191, 0.1);
+    }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #fdf2f8;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(#f472b6, #c084fc);
-            border-radius: 9999px;
-        }
-    </style>
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: var(--pink-deep);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    body.night-mode .section-title { color: #ff8fa3; }
+
+    .section-sub {
+      text-align: center;
+      font-size: 0.86rem;
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    /* Photo Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .photo-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 12px;
+      border: 2px solid #f8bbd0;
+      box-shadow: 0 8px 22px rgba(214, 51, 132, 0.12);
+      text-align: center;
+      color: #3b1c32;
+    }
+
+    .photo-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffe5ec, #f3d5ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-frame img {
+      width: 134%;
+      height: 76%;
+      object-fit: cover;
+      transform: rotate(-90deg) scale(1.22);
+      transition: transform 0.3s ease;
+    }
+
+    .photo-frame img.upright-user {
+      width: 100%;
+      height: 100%;
+      transform: rotate(0deg) scale(1);
+    }
+
+    .rotate-mini-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(59, 28, 50, 0.72);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .beauty-caption {
+      margin-top: 12px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #591c47;
+      font-weight: 500;
+      padding: 0 4px;
+    }
+
+    .change-photo-label {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #7b2cbf;
+      background: #f3e8ff;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Love Letter */
+    .letter-box {
+      text-align: center;
+    }
+
+    .open-letter-btn {
+      background: linear-gradient(135deg, #ff4d6d, #9d4edd);
+      color: #fff;
+      border: none;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 77, 109, 0.38);
+    }
+
+    .letter-paper {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      background: #fff9fb;
+      color: #3b1c32;
+      padding: 22px 18px;
+      border-radius: 18px;
+      border: 2px dashed #ff758f;
+      line-height: 1.75;
+      font-size: 0.95rem;
+      box-shadow: inset 0 0 20px rgba(255, 117, 143, 0.12);
+    }
+
+    .letter-paper.open {
+      display: block;
+      animation: popIn 0.45s ease;
+    }
+
+    .letter-paper p { margin-bottom: 14px; }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.92) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Interactive Surprises (Pikachu & Lanterns) */
+    .surprise-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .pika-btn {
+      background: linear-gradient(135deg, #ffd60a, #ff9e00);
+      color: #2b1900;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 183, 3, 0.35);
+    }
+
+    .lantern-btn {
+      background: linear-gradient(135deg, #3c096c, #7b2cbf);
+      color: #ffe066;
+      border: 1.5px solid #ffe066;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(123, 44, 191, 0.35);
+    }
+
+    /* Pikachu Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 5, 25, 0.72);
+      z-index: 60;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .pika-card {
+      background: linear-gradient(180deg, #fffbe6, #fff0f6);
+      color: #3b1c32;
+      max-width: 380px;
+      width: 100%;
+      border-radius: 28px;
+      padding: 24px 20px;
+      text-align: center;
+      border: 3px solid #ffd60a;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      animation: popIn 0.35s ease;
+    }
+
+    .pika-quote {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.75rem;
+      color: #d63384;
+      margin: 12px 0 16px;
+      line-height: 1.3;
+    }
+
+    /* Lifetime Princess Treatment Pass */
+    .vip-pass {
+      background: linear-gradient(135deg, #fff8e7, #ffe5ec, #f3d5ff);
+      color: #3b1c32;
+      border: 3px solid #f5b700;
+      border-radius: 24px;
+      padding: 22px 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(245, 183, 0, 0.25);
+    }
+
+    .pass-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px dashed #d63384;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .pass-perks {
+      list-style: none;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .activate-pass-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #d63384, #7b2cbf);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(214, 51, 132, 0.35);
+    }
+
+    .pass-activated-banner {
+      display: none;
+      margin-top: 16px;
+      background: #ffffff;
+      border: 2px solid #2b9348;
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+      animation: popIn 0.4s ease;
+    }
+
+    .pass-activated-banner.active { display: block; }
+
+    .status-badge {
+      display: inline-block;
+      background: #2b9348;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    /* Floating Music Player */
+    .music-bar {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 540px;
+      background: rgba(43, 16, 56, 0.94);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      border: 1.5px solid rgba(255, 183, 3, 0.55);
+      border-radius: 999px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 55;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .play-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #ff758f, #f5b700);
+      color: #2b1200;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .song-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .song-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #ffe066;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .song-sub {
+      font-size: 0.72rem;
+      color: #f8bbd0;
+    }
+
+    .upload-song-btn {
+      font-size: 0.72rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
 </head>
-<body class="min-h-screen relative selection:bg-pink-300 selection:text-pink-950">
+<body>
 
-    <!-- Fullscreen Canvas for Floating Petals, Sparkles, Lanterns & Confetti -->
-    <canvas id="magicCanvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
+  <div id="ambient-layer"></div>
+  <div id="lantern-container"></div>
 
-    <!-- Hidden YouTube Player Container for "her" by JVKE -->
-    <div class="fixed -top-96 -left-96 w-64 h-64 opacity-0 pointer-events-none" aria-hidden="true">
-        <div id="yt-player"></div>
-    </div>
+  <div class="container">
+    <!-- Hero Section with Rapunzel Crown -->
+    <header class="hero">
+      <div class="crown-wrap">
+        <svg width="110" height="74" viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="140" y2="90" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFF099"/>
+              <stop offset="45%" stop-color="#F5B700"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </linearGradient>
+          </defs>
+          <path d="M18 72L10 30L42 50L70 12L98 50L130 30L122 72H18Z" fill="url(#goldGrad)" stroke="#B45309" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="18" y="68" width="104" height="12" rx="6" fill="url(#goldGrad)" stroke="#B45309" stroke-width="2.5"/>
+          <circle cx="70" cy="12" r="6" fill="#FF4D6D"/>
+          <circle cx="10" cy="30" r="5" fill="#C77DFF"/>
+          <circle cx="130" cy="30" r="5" fill="#C77DFF"/>
+          <polygon points="70,40 77,50 70,60 63,50" fill="#FF4D6D"/>
+          <circle cx="43" cy="54" r="4.5" fill="#9D4EDD"/>
+          <circle cx="97" cy="54" r="4.5" fill="#9D4EDD"/>
+        </svg>
+      </div>
+      <div class="hero-badge">✨ Royal Princess Day Special ✨</div>
+      <h1>Happy Princess Day<br>Meri Jyotuuu 👑💗</h1>
+      <p class="subtitle">Aaj ka poora din sirf meri sabse pyaari, cute aur favourite Princess ke naam 🌸✨</p>
+      <button class="crown-btn" onclick="crownHer()">👑 Wear Your Rapunzel Crown</button>
+      <p id="crown-msg" style="margin-top:10px; font-weight:600; color:#d63384; display:none;">✨ Royal Rapunzel Crown crowned on Queen Jyotuuu! ✨</p>
+    </header>
 
-    <!-- Floating Music Player Bar ("her" by JVKE) -->
-    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-md">
-        <div class="bg-white/90 backdrop-blur-xl border-2 border-pink-300/90 shadow-2xl rounded-full px-4 py-2.5 flex items-center justify-between gap-3 transition-all duration-300 hover:border-amber-400">
-            <div class="flex items-center gap-3 min-w-0">
-                <div id="vinylDisc" class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-amber-400 flex items-center justify-center text-white shadow-md shrink-0">
-                    <span class="text-lg">🎵</span>
-                </div>
-                <div class="truncate">
-                    <p class="text-xs font-bold uppercase tracking-wider text-pink-600 flex items-center gap-1">
-                        <span>Princess Anthem</span>
-                        <span id="musicEqualizer" class="hidden inline-flex gap-0.5 items-end h-3">
-                            <span class="w-0.5 bg-pink-500 h-2 animate-pulse"></span>
-                            <span class="w-0.5 bg-amber-500 h-3 animate-bounce"></span>
-                            <span class="w-0.5 bg-purple-500 h-1.5 animate-pulse"></span>
-                        </span>
-                    </p>
-                    <p class="text-sm font-bold text-gray-900 truncate">"her" — JVKE 💗</p>
-                </div>
-            </div>
-            <button id="musicToggleBtn" onclick="toggleMusic()" class="shrink-0 bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-full shadow-lg active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer">
-                <span id="musicBtnIcon">▶️</span>
-                <span id="musicBtnText">Play Song</span>
-            </button>
+    <!-- Her Beauty Photo Gallery -->
+    <section class="card">
+      <h2 class="section-title">Meri Sabse Beautiful Princess 🌸</h2>
+      <p class="section-sub">Har ek picture mein apki khubsurti aur masoomiyat dil jeet leti hai 💗</p>
+
+      <div class="gallery-grid">
+        <!-- Photo 1 -->
+        <div class="photo-card">
+          <div class="photo-frame">
+            <button class="rotate-mini-btn" onclick="toggleRotate('img1')">🔄 Rotate</button>
+            <img id="img1" src="1000169887_2.jpg" alt="Jyotuuu Photo 1" onerror="this.src='photo1.jpg'" />
+          </div>
+          <p class="beauty-caption">
+            "Apki yeh pyaari si aankhein aur woh chhoti si bindi... kasam se meri Princess kisi pari se kam nahi lagti 👑💗✨"
+          </p>
+          <label class="change-photo-label">
+            📷 Change Photo
+            <input type="file" accept="image/*" hidden onchange="loadUserPhoto(event, 'img1')" />
+          </label>
         </div>
-    </div>
 
-    <!-- Main Container -->
-    <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-8 pb-32 space-y-16 sm:space-y-24">
-
-        <!-- HERO SECTION WITH RAPUNZEL CROWN -->
-        <header class="text-center pt-4 sm:pt-8 space-y-6">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100/90 border border-amber-300 text-amber-800 text-xs sm:text-sm font-semibold shadow-sm">
-                <span>✨ Royal Celebration • November 18 ✨</span>
-            </div>
-
-            <!-- Glowing Rapunzel Golden Tiara / Crown SVG -->
-            <div class="relative mx-auto w-64 sm:w-80 h-44 sm:h-52 flex items-center justify-center">
-                <!-- Ambient radial glow behind crown -->
-                <div class="absolute inset-4 rounded-full bg-gradient-to-tr from-amber-300/40 via-pink-300/40 to-purple-300/40 blur-2xl"></div>
-                
-                <svg viewBox="0 0 360 220" class="w-full h-full crown-glow overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="rapunzelGold" x1="20" y1="20" x2="340" y2="200" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#FEF08A"/>
-                            <stop offset="30%" stop-color="#F59E0B"/>
-                            <stop offset="55%" stop-color="#FDE047"/>
-                            <stop offset="80%" stop-color="#D97706"/>
-                            <stop offset="100%" stop-color="#FEF9C3"/>
-                        </linearGradient>
-                        <linearGradient id="royalJewelPink" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#FF85C0"/>
-                            <stop offset="50%" stop-color="#EC4899"/>
-                            <stop offset="100%" stop-color="#9D174D"/>
-                        </linearGradient>
-                        <linearGradient id="royalJewelPurple" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#E9D5FF"/>
-                            <stop offset="50%" stop-color="#A855F7"/>
-                            <stop offset="100%" stop-color="#581C87"/>
-                        </linearGradient>
-                        <radialGradient id="pearlGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#FFFFFF"/>
-                            <stop offset="70%" stop-color="#FDF2F8"/>
-                            <stop offset="100%" stop-color="#FBCFE8"/>
-                        </radialGradient>
-                    </defs>
-
-                    <!-- Intricate Rapunzel Filigree Scrolls & Swirls -->
-                    <path d="M45 170 C35 125, 65 95, 95 120 C115 135, 100 165, 80 155" stroke="url(#rapunzelGold)" stroke-width="7" stroke-linecap="round"/>
-                    <path d="M315 170 C325 125, 295 95, 265 120 C245 135, 260 165, 280 155" stroke="url(#rapunzelGold)" stroke-width="7" stroke-linecap="round"/>
-
-                    <path d="M85 168 C80 100, 118 65, 145 105 C160 128, 138 158, 120 142" stroke="url(#rapunzelGold)" stroke-width="8" stroke-linecap="round"/>
-                    <path d="M275 168 C280 100, 242 65, 215 105 C200 128, 222 158, 240 142" stroke="url(#rapunzelGold)" stroke-width="8" stroke-linecap="round"/>
-
-                    <!-- Central Majestic Spire -->
-                    <path d="M135 165 C135 90, 165 48, 180 26 C195 48, 225 90, 225 165" stroke="url(#rapunzelGold)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M152 162 C155 110, 172 78, 180 62 C188 78, 205 110, 208 162" stroke="url(#rapunzelGold)" stroke-width="6" stroke-linecap="round"/>
-
-                    <!-- Crown Base Tiara Band -->
-                    <path d="M38 172 Q180 144 322 172 L310 190 Q180 165 50 190 Z" fill="url(#rapunzelGold)" stroke="#B45309" stroke-width="2"/>
-
-                    <!-- Top Sunburst / Heart Finial -->
-                    <circle cx="180" cy="22" r="9" fill="url(#pearlGlow)" stroke="#F59E0B" stroke-width="2.5"/>
-                    <path d="M180 5 L183 14 L192 17 L183 20 L180 29 L177 20 L168 17 L177 14 Z" fill="#FFFBEB"/>
-
-                    <!-- Center Heart-Cut Pink Sapphire -->
-                    <path d="M180 126 C180 126 162 110 162 98 C162 90 169 85 175 89 C178 91 180 94 180 94 C180 94 182 91 185 89 C191 85 198 90 198 98 C198 110 180 126 180 126 Z" fill="url(#royalJewelPink)" stroke="#FEF08A" stroke-width="2.5"/>
-
-                    <!-- Side Amethyst Teardrop Jewels -->
-                    <ellipse cx="118" cy="108" rx="9" ry="13" transform="rotate(-18 118 108)" fill="url(#royalJewelPurple)" stroke="#FEF08A" stroke-width="2"/>
-                    <ellipse cx="242" cy="108" rx="9" ry="13" transform="rotate(18 242 108)" fill="url(#royalJewelPurple)" stroke="#FEF08A" stroke-width="2"/>
-
-                    <!-- Outer Pink Pearls -->
-                    <circle cx="66" cy="122" r="7" fill="url(#royalJewelPink)" stroke="#FEF08A" stroke-width="2"/>
-                    <circle cx="294" cy="122" r="7" fill="url(#royalJewelPink)" stroke="#FEF08A" stroke-width="2"/>
-
-                    <!-- Band Jewels & Pearls -->
-                    <circle cx="180" cy="166" r="8" fill="url(#royalJewelPink)" stroke="#FFFBEB" stroke-width="2"/>
-                    <circle cx="135" cy="168" r="6" fill="url(#royalJewelPurple)" stroke="#FFFBEB" stroke-width="1.5"/>
-                    <circle cx="225" cy="168" r="6" fill="url(#royalJewelPurple)" stroke="#FFFBEB" stroke-width="1.5"/>
-                    <circle cx="92" cy="173" r="5" fill="url(#pearlGlow)" stroke="#F59E0B" stroke-width="1.5"/>
-                    <circle cx="268" cy="173" r="5" fill="url(#pearlGlow)" stroke="#F59E0B" stroke-width="1.5"/>
-
-                    <!-- Animated Four-Point Sparkles -->
-                    <path class="sparkle-dot" style="animation-delay: 0.1s" d="M65 55 L68 65 L78 68 L68 71 L65 81 L62 71 L52 68 L62 65 Z" fill="#FDE047"/>
-                    <path class="sparkle-dot" style="animation-delay: 0.9s" d="M295 50 L298 60 L308 63 L298 66 L295 76 L292 66 L282 63 L292 60 Z" fill="#F472B6"/>
-                    <path class="sparkle-dot" style="animation-delay: 1.5s" d="M180 135 L182 141 L188 143 L182 145 L180 151 L178 145 L172 143 L178 141 Z" fill="#FFFFFF"/>
-                </svg>
-            </div>
-
-            <div class="space-y-3">
-                <h1 class="font-royal text-3xl sm:text-5xl md:text-6xl font-black tracking-wide bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 bg-clip-text text-transparent drop-shadow-sm">
-                    Happy Princess Day, Jyotuuu 👑
-                </h1>
-                <p class="font-script text-3xl sm:text-4xl text-pink-600">
-                    To the most precious queen of my heart & world 🌸✨
-                </p>
-                <p class="max-w-xl mx-auto text-sm sm:text-base opacity-85 leading-relaxed">
-                    A little royal kingdom crafted with endless love by <span class="font-bold text-pink-600">apka pagal Himansu</span> — complete with your crown, memories, a special letter, surprises, and your official lifetime pass. 💗
-                </p>
-            </div>
-
-            <!-- Quick Action Pills -->
-            <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <a href="#gallery-section" class="px-5 py-2.5 rounded-full bg-white/85 hover:bg-white text-pink-700 font-semibold text-sm shadow-md border border-pink-200 transition active:scale-95">
-                    📸 Royal Gallery
-                </a>
-                <a href="#letter-section" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition active:scale-95">
-                    💌 Read Love Letter
-                </a>
-                <button onclick="triggerLanternShow()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 font-bold text-sm shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer">
-                    🏮 Light Up Rapunzel's Sky
-                </button>
-            </div>
-        </header>
-
-        <!-- SECTION 1: ROYAL PHOTO GALLERY -->
-        <section id="gallery-section" class="space-y-8">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-pink-500">My Favorite View</span>
-                <h2 class="font-royal text-2xl sm:text-4xl font-bold">The Prettiest Princess ✨👑</h2>
-                <p class="text-sm sm:text-base opacity-80 max-w-lg mx-auto">
-                    Har ek photo mein ap kisi fairy tale ki real-life Princess lagti hain — aur agar apko koi aur photo lagani ho toh har frame pe <strong>Change Photo</strong> button bhi hai! 💗
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                <!-- Photo Card 1 -->
-                <article class="photo-card royal-glass rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-4 group">
-                    <div class="relative">
-                        <div class="absolute -top-2 -right-2 z-20 w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-white flex items-center justify-center shadow-md text-base">
-                            👑
-                        </div>
-                        <div class="photo-wrapper border-2 border-amber-300/80 shadow-inner">
-                            <img id="princessImg1" src="1000169887.jpg" alt="Princess Jyotuuu in traditional red and gold" class="upright-photo" onerror="handleImageFallback(this, 'photo1.jpg', 'Royal Princess Jyotuuu 👑')">
-                            <!-- Discreet Gallery Photo Picker Button -->
-                            <label for="uploadPhoto1" class="absolute bottom-2.5 right-2.5 z-20 px-3 py-1.5 rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md text-white text-[11px] font-semibold shadow-md cursor-pointer transition flex items-center gap-1">
-                                <span>📷</span>
-                                <span>Change Photo</span>
-                            </label>
-                            <input id="uploadPhoto1" type="file" accept="image/*" class="hidden" onchange="replacePrincessPhoto(event, 'princessImg1')">
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center px-1 pb-1">
-                        <div class="inline-block px-3 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">
-                            Royal Grace ✨
-                        </div>
-                        <p class="text-sm sm:text-base font-medium leading-relaxed">
-                            "Apki yeh innocent si aankhein aur pyari si look... kasam se kisi fairy tale ki real-life Princess lag rahi hain ap 👑🌸✨"
-                        </p>
-                    </div>
-                </article>
-
-                <!-- Photo Card 2 -->
-                <article class="photo-card royal-glass rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-4 group">
-                    <div class="relative">
-                        <div class="absolute -top-2 -right-2 z-20 w-9 h-9 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 text-white flex items-center justify-center shadow-md text-base">
-                            💗
-                        </div>
-                        <div class="photo-wrapper border-2 border-pink-300/80 shadow-inner">
-                            <img id="princessImg2" src="1000169888.jpg" alt="Cute pout and adorable expression of Jyotuuu" class="upright-photo" onerror="handleImageFallback(this, 'photo2.jpg', 'Cutest Princess Mood 💗')">
-                            <!-- Discreet Gallery Photo Picker Button -->
-                            <label for="uploadPhoto2" class="absolute bottom-2.5 right-2.5 z-20 px-3 py-1.5 rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md text-white text-[11px] font-semibold shadow-md cursor-pointer transition flex items-center gap-1">
-                                <span>📷</span>
-                                <span>Change Photo</span>
-                            </label>
-                            <input id="uploadPhoto2" type="file" accept="image/*" class="hidden" onchange="replacePrincessPhoto(event, 'princessImg2')">
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center px-1 pb-1">
-                        <div class="inline-block px-3 py-0.5 rounded-full bg-pink-100 text-pink-700 text-xs font-bold">
-                            Cutest Pout 🙈
-                        </div>
-                        <p class="text-sm sm:text-base font-medium leading-relaxed">
-                            "Jab ap aise cute sa muh banati hain na, toh duniya ki saari cuteness ek hi jagah aa jaati hai 🙈💗🤌🏻"
-                        </p>
-                    </div>
-                </article>
-
-                <!-- Photo Card 3 -->
-                <article class="photo-card royal-glass rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-4 group">
-                    <div class="relative">
-                        <div class="absolute -top-2 -right-2 z-20 w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 text-white flex items-center justify-center shadow-md text-base">
-                            🌸
-                        </div>
-                        <div class="photo-wrapper border-2 border-purple-300/80 shadow-inner">
-                            <img id="princessImg3" src="1000169889.jpg" alt="Jyotuuu looking effortlessly gorgeous" class="upright-photo" onerror="handleImageFallback(this, 'photo3.jpg', 'Natural Beauty 🌸')">
-                            <!-- Discreet Gallery Photo Picker Button -->
-                            <label for="uploadPhoto3" class="absolute bottom-2.5 right-2.5 z-20 px-3 py-1.5 rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md text-white text-[11px] font-semibold shadow-md cursor-pointer transition flex items-center gap-1">
-                                <span>📷</span>
-                                <span>Change Photo</span>
-                            </label>
-                            <input id="uploadPhoto3" type="file" accept="image/*" class="hidden" onchange="replacePrincessPhoto(event, 'princessImg3')">
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center px-1 pb-1">
-                        <div class="inline-block px-3 py-0.5 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">
-                            Effortless Charm 🌸
-                        </div>
-                        <p class="text-sm sm:text-base font-medium leading-relaxed">
-                            "Glasses ho ya filter, apki natural beauty aur woh cute si smile har cheez ko magical bana deti hai 🌷💞✨"
-                        </p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- SECTION 2: INTERACTIVE PRINCESS DAY LOVE LETTER -->
-        <section id="letter-section" class="max-w-3xl mx-auto space-y-6">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500">From The Bottom Of My Heart</span>
-                <h2 class="font-royal text-2xl sm:text-4xl font-bold">A Royal Scroll For Jyotuuu 💌</h2>
-            </div>
-
-            <!-- Envelope Trigger Card -->
-            <div id="envelopeBox" class="royal-glass rounded-3xl p-6 sm:p-10 text-center space-y-6 relative overflow-hidden">
-                <div class="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 via-rose-500 to-amber-400 flex items-center justify-center text-4xl shadow-xl text-white">
-                    💌
-                </div>
-                <div class="space-y-2">
-                    <h3 class="text-xl sm:text-2xl font-bold">You Have a Special Princess Day Letter!</h3>
-                    <p class="text-sm sm:text-base opacity-80">Tap the golden seal below to open Himansu's heartfelt message for you.</p>
-                </div>
-                <button id="openLetterBtn" onclick="toggleLetter()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold text-base shadow-xl hover:shadow-pink-500/30 transition transform active:scale-95 cursor-pointer inline-flex items-center gap-2">
-                    <span>Open Your Princess Day Letter</span>
-                    <span>👑✨</span>
-                </button>
-
-                <!-- Revealed Letter Content -->
-                <div id="letterContent" class="hidden text-left pt-6 border-t-2 border-dashed border-pink-300/80 space-y-5 animate-fadeIn">
-                    <div class="bg-gradient-to-b from-amber-50/95 via-pink-50/95 to-purple-50/95 text-gray-800 rounded-2xl p-6 sm:p-8 shadow-inner border border-amber-200/90 space-y-5 leading-relaxed text-sm sm:text-base md:text-lg">
-                        <p class="font-bold text-rose-600 text-base sm:text-xl text-center">
-                            HAPPYYYY PRINCESS DAYYYYY MERIIIIII JYOTUUUUUUUUU 👑😭🌸💗✨🤌🏻🫶🏻🌷💞
-                        </p>
-
-                        <p>
-                            Meri pyaariiiii si Jyotuuuuuu 😭🌸💗👑✨ aaj apka din haiiii aur mai apni sabse beautiful princess ko batana chahta hoon ki ap mere liye kitni zyada special hain 😭💗🌷🤌🏻✨ apki woh cute si smileeeee 🌸 apki pyari pyari baatein 😭💞 apka gussa hona 🙈💗 apka mujhe daantna 😭🤌🏻 aur apki woh chhoti chhoti harkatein sab kuch mere liye bohot precious haiiii 🌷💗✨
-                        </p>
-
-                        <p>
-                            Babyyyyyy 🫶🏻💗 mai chahta hoon ki apki life hamesha khushiyon se bhari rahe 🌸🌷✨ apke saare dreams complete ho 😭💗 apko har woh happiness mile jo ap deserve karti hain 🤌🏻🌸👑 ap kabhi khud ko kam mat samajhna meri Princess because ap apni jagah bohot special hain 😭🌸💞
-                        </p>
-
-                        <p>
-                            Aur meri Jyotuuuuuu 🙈😭💗 mai hamesha apni mistakes samajhne aur khud ko better banane ki koshish karunga 🫶🏻💗 mai chahta hoon ki apko mere saath respected loved aur understood feel ho 🌷✨🤌🏻
-                        </p>
-
-                        <p>
-                            Hamesha aise hi smile karte rehna meri Jyotuuuuuu 😭🌸💗🙈 apki smile bohot precious haiiii aur please apne dreams ko kabhi chhodna matttt 👑💞🌷 mai hamesha apko grow karte hue aur apni life mein successful hote hue dekhna chahta hoon ✨💗🌸
-                        </p>
-
-                        <p class="font-bold text-rose-600 text-base sm:text-lg text-center pt-2">
-                            ONCE AGAIN HAPPYYYY PRINCESS DAYYYYY MERIIIIII JYOTUUUUUUUUU 😭😭🌸💗👑🤌🏻✨🫶🏻🌷💞🙈 AP MERI FAVOURITE PRINCESS HAINNNN 😭💗🌸✨🤌🏻
-                        </p>
-
-                        <div class="pt-4 text-right font-script text-3xl text-pink-600">
-                            Forever yours, apka pagal Himansu 💗
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: INTERACTIVE SURPRISES (PIKACHU & RAPUNZEL LANTERN SHOW) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <!-- Pikachu Surprise Card -->
-            <div class="royal-glass rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-between text-center space-y-5">
-                <div class="space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-bold">⚡ Pika-Love Delivery</span>
-                    <h3 class="font-royal text-xl sm:text-2xl font-bold">A Cute Little Visitor</h3>
-                    <p class="text-sm opacity-80">Someone super cute brought a message straight from Himansu's heart!</p>
-                </div>
-
-                <!-- Pikachu Reveal Stage -->
-                <div id="pikachuStage" class="w-full min-h-[210px] flex flex-col items-center justify-center relative">
-                    <div id="pikachuPlaceholder" class="w-24 h-24 rounded-full bg-yellow-100 border-2 border-dashed border-yellow-400 flex items-center justify-center text-4xl">
-                        🎁
-                    </div>
-
-                    <div id="pikachuRevealed" class="hidden flex-col items-center space-y-3 w-full">
-                        <!-- Speech Bubble -->
-                        <div class="relative bg-white text-gray-900 border-2 border-pink-400 rounded-2xl px-4 py-3 shadow-lg max-w-xs">
-                            <p class="font-bold text-sm sm:text-base text-pink-600">
-                                "I love you Jyotuuu! Apka pagal Himansu ⚡💗"
-                            </p>
-                            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-r-2 border-b-2 border-pink-400 rotate-45"></div>
-                        </div>
-
-                        <!-- Custom Illustrated Cute Pikachu holding a Heart SVG -->
-                        <svg viewBox="0 0 220 200" class="w-40 h-36 pika-animate drop-shadow-lg" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Left Ear -->
-                            <path d="M68 72 L30 16 L86 54 Z" fill="#FACC15" stroke="#854D0E" stroke-width="3" stroke-linejoin="round"/>
-                            <path d="M47 28 L30 16 L58 36 Z" fill="#1F2937"/>
-                            <!-- Right Ear -->
-                            <path d="M152 72 L190 16 L134 54 Z" fill="#FACC15" stroke="#854D0E" stroke-width="3" stroke-linejoin="round"/>
-                            <path d="M173 28 L190 16 L162 36 Z" fill="#1F2937"/>
-                            <!-- Tail -->
-                            <path d="M155 150 L185 130 L175 110 L205 90 L195 125 L210 135 L165 168 Z" fill="#FACC15" stroke="#854D0E" stroke-width="3" stroke-linejoin="round"/>
-                            <!-- Body -->
-                            <ellipse cx="110" cy="142" rx="46" ry="44" fill="#FACC15" stroke="#854D0E" stroke-width="3"/>
-                            <!-- Head -->
-                            <ellipse cx="110" cy="88" rx="50" ry="42" fill="#FACC15" stroke="#854D0E" stroke-width="3"/>
-                            <!-- Cute Mini Crown on Pikachu -->
-                            <path d="M92 48 L96 34 L110 43 L124 34 L128 48 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
-                            <!-- Eyes -->
-                            <circle cx="88" cy="82" r="8" fill="#1F2937"/>
-                            <circle cx="86" cy="79" r="3" fill="#FFFFFF"/>
-                            <circle cx="132" cy="82" r="8" fill="#1F2937"/>
-                            <circle cx="130" cy="79" r="3" fill="#FFFFFF"/>
-                            <!-- Red Electric Cheeks -->
-                            <circle cx="72" cy="98" r="10" fill="#EF4444"/>
-                            <circle cx="148" cy="98" r="10" fill="#EF4444"/>
-                            <!-- Nose & Happy Mouth -->
-                            <ellipse cx="110" cy="92" rx="3" ry="2" fill="#1F2937"/>
-                            <path d="M98 100 Q104 106 110 100 Q116 106 122 100" fill="none" stroke="#1F2937" stroke-width="2.5" stroke-linecap="round"/>
-                            <!-- Heart held in paws -->
-                            <path d="M110 162 C110 162 84 142 84 126 C84 116 93 110 102 115 C107 118 110 122 110 122 C110 122 113 118 118 115 C127 110 136 116 136 126 C136 142 110 162 110 162 Z" fill="#EC4899" stroke="#9D174D" stroke-width="2.5"/>
-                            <!-- Paws -->
-                            <ellipse cx="86" cy="134" rx="10" ry="8" fill="#FDE047" stroke="#854D0E" stroke-width="2.5"/>
-                            <ellipse cx="134" cy="134" rx="10" ry="8" fill="#FDE047" stroke="#854D0E" stroke-width="2.5"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <button id="pikachuBtn" onclick="revealPikachu()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-amber-950 font-bold text-sm sm:text-base shadow-lg transition transform active:scale-95 cursor-pointer">
-                    Tap for a Cute Surprise ⚡💛
-                </button>
-            </div>
-
-            <!-- Rapunzel Lantern Show Card -->
-            <div class="royal-glass rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-between text-center space-y-5">
-                <div class="space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">🏮 Tangled Royal Festival</span>
-                    <h3 class="font-royal text-xl sm:text-2xl font-bold">Rapunzel Lantern Show</h3>
-                    <p class="text-sm opacity-80">Light up the royal night sky with floating golden lanterns dedicated to Jyotuuu.</p>
-                </div>
-
-                <!-- Lantern Illustration -->
-                <div class="w-full min-h-[210px] flex flex-col items-center justify-center relative">
-                    <svg viewBox="0 0 160 180" class="w-36 h-40 crown-glow" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <radialGradient id="lanternFlame" cx="50%" cy="60%" r="55%">
-                                <stop offset="0%" stop-color="#FFFFFF"/>
-                                <stop offset="40%" stop-color="#FDE047"/>
-                                <stop offset="80%" stop-color="#F59E0B"/>
-                                <stop offset="100%" stop-color="#B45309"/>
-                            </radialGradient>
-                        </defs>
-                        <!-- Lantern Body -->
-                        <path d="M45 35 Q80 22 115 35 L105 135 Q80 145 55 135 Z" fill="url(#lanternFlame)" stroke="#F59E0B" stroke-width="2.5"/>
-                        <!-- Gold Sun Emblem on Lantern -->
-                        <circle cx="80" cy="82" r="14" fill="none" stroke="#92400E" stroke-width="2" stroke-dasharray="4 3"/>
-                        <circle cx="80" cy="82" r="7" fill="#FEF08A" stroke="#92400E" stroke-width="1.5"/>
-                        <!-- Top & Bottom Rims -->
-                        <ellipse cx="80" cy="35" rx="35" ry="7" fill="#78350F"/>
-                        <ellipse cx="80" cy="135" rx="25" ry="5" fill="#78350F"/>
-                        <!-- Bottom Glow -->
-                        <circle cx="80" cy="128" r="10" fill="#FFFBEB" opacity="0.9"/>
-                    </svg>
-                    <p id="lanternStatusText" class="text-xs font-semibold text-amber-600 mt-1">
-                        Ready to illuminate the sky ✨
-                    </p>
-                </div>
-
-                <div class="flex flex-wrap items-center justify-center gap-2 w-full">
-                    <button id="lanternShowBtn" onclick="triggerLanternShow()" class="px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-white font-bold text-sm sm:text-base shadow-lg transition transform active:scale-95 cursor-pointer">
-                        ✨ Light Up Rapunzel's Sky 🏮
-                    </button>
-                    <button id="dayModeBtn" onclick="stopLanternNight()" class="hidden px-4 py-3 rounded-full bg-white/20 border border-amber-300/60 text-amber-200 font-semibold text-xs sm:text-sm hover:bg-white/30 transition cursor-pointer">
-                        ☀️ Back to Pastel Sky
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: LIFETIME ROYAL PRINCESS TREATMENT PASS -->
-        <section id="pass-section" class="max-w-2xl mx-auto space-y-6">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-amber-600">Exclusive Royal Privilege</span>
-                <h2 class="font-royal text-2xl sm:text-4xl font-bold">Lifetime Treatment Pass 👑</h2>
-                <p class="text-sm sm:text-base opacity-80">
-                    Activate your official pass below and take a screenshot to keep forever!
-                </p>
-            </div>
-
-            <!-- VIP Card Container (Screenshot Ready) -->
-            <div id="vipPassCard" class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-white via-pink-50 to-amber-50 text-gray-900 border-2 border-amber-400 shadow-2xl relative overflow-hidden transition-all duration-700">
-                <!-- Decorative Corner Crowns -->
-                <div class="flex items-center justify-between border-b-2 border-amber-300/70 pb-4 mb-5">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center text-2xl text-white shadow-md">
-                            👑
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-extrabold uppercase tracking-widest text-amber-700">Royal Kingdom Official</p>
-                            <h3 class="font-royal text-base sm:text-xl font-black text-gray-900">
-                                LIFETIME PRINCESS TREATMENT PASS
-                            </h3>
-                        </div>
-                    </div>
-                    <span id="passStatusBadge" class="px-3 py-1 rounded-full bg-amber-100 border border-amber-400 text-amber-800 text-xs font-extrabold uppercase tracking-wide">
-                        Pending ✨
-                    </span>
-                </div>
-
-                <!-- Pass Details Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
-                    <div class="bg-white/80 rounded-2xl p-3.5 border border-pink-200/80">
-                        <p class="text-xs text-gray-500 font-semibold uppercase">Pass Holder</p>
-                        <p class="text-base sm:text-lg font-extrabold text-pink-600">Princess Jyotuuu 👑🌸</p>
-                    </div>
-                    <div class="bg-white/80 rounded-2xl p-3.5 border border-pink-200/80">
-                        <p class="text-xs text-gray-500 font-semibold uppercase">Issued With Love By</p>
-                        <p class="text-base sm:text-lg font-extrabold text-rose-600">Apka Pagal Himansu 💗</p>
-                    </div>
-                    <div class="bg-white/80 rounded-2xl p-3.5 border border-pink-200/80">
-                        <p class="text-xs text-gray-500 font-semibold uppercase">Validity</p>
-                        <p class="text-base font-bold text-gray-900">LIFETIME • NO EXPIRY ♾️</p>
-                    </div>
-                    <div class="bg-white/80 rounded-2xl p-3.5 border border-pink-200/80">
-                        <p class="text-xs text-gray-500 font-semibold uppercase">Activation Status</p>
-                        <p id="passTimestamp" class="text-sm font-bold text-amber-700">Tap button below to activate</p>
-                    </div>
-                </div>
-
-                <!-- Royal Perks List -->
-                <div class="bg-white/75 rounded-2xl p-4 border border-amber-300/70 mb-6">
-                    <p class="text-xs font-extrabold uppercase tracking-wider text-amber-800 mb-2">Guaranteed Royal Perks Included:</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm font-medium text-gray-800">
-                        <div class="flex items-center gap-2"><span>💖</span> Unlimited Pampering & Care</div>
-                        <div class="flex items-center gap-2"><span>🥺</span> Endless Patience When Angry</div>
-                        <div class="flex items-center gap-2"><span>🍫</span> Instant Treats & Smile Duty</div>
-                        <div class="flex items-center gap-2"><span>👑</span> Forever Respect, Love & Support</div>
-                    </div>
-                </div>
-
-                <!-- Activation Action Area -->
-                <div class="text-center space-y-4">
-                    <button id="activatePassBtn" onclick="activatePrincessPass()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-pink-500 to-rose-600 hover:from-amber-600 hover:to-rose-700 text-white font-extrabold text-base sm:text-lg shadow-xl hover:shadow-amber-500/40 transition transform active:scale-95 cursor-pointer">
-                        Activate Lifetime Treatment Pass 👑
-                    </button>
-
-                    <!-- Post-Activation Screenshot Instruction & Download Option -->
-                    <div id="passActivatedNotice" class="hidden space-y-3 pt-2">
-                        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-400 text-emerald-950 space-y-1">
-                            <p class="font-extrabold text-sm sm:text-base">
-                                🎉 ACTIVATED FOREVER ✅ 🎉
-                            </p>
-                            <p class="text-xs sm:text-sm font-semibold">
-                                Ab jaldi se iska screenshot le lo meri Princess 📸💗 aur Himansu ko bhej do!
-                            </p>
-                        </div>
-                        <button onclick="downloadPassCard()" class="px-5 py-2.5 rounded-full bg-gray-900 hover:bg-gray-800 text-amber-300 text-xs sm:text-sm font-bold shadow-md transition active:scale-95 cursor-pointer inline-flex items-center gap-2">
-                            <span>📥 Download Pass Image</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="text-center text-xs sm:text-sm opacity-80 pt-4 space-y-1">
-            <p class="font-semibold">Made with endless love & devotion for Jyotuuu 👑🌸💗</p>
-            <p>Happy Princess Day • Apka Pagal Himansu ✨</p>
-        </footer>
-    </main>
-
-    <!-- Custom Toast Notification Box (Replaces any alert) -->
-    <div id="royalToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform -translate-y-4">
-        <div class="bg-gray-900/95 text-white border border-amber-400/80 px-5 py-3 rounded-full shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2">
-            <span id="toastIcon">✨</span>
-            <span id="toastMessage">Welcome Princess Jyotuuu!</span>
+        <!-- Photo 2 -->
+        <div class="photo-card">
+          <div class="photo-frame">
+            <button class="rotate-mini-btn" onclick="toggleRotate('img2')">🔄 Rotate</button>
+            <img id="img2" src="1000169888_2.jpg" alt="Jyotuuu Photo 2" onerror="this.src='photo2.jpg'" />
+          </div>
+          <p class="beauty-caption">
+            "Apka yeh cute sa nakhra aur gussa bhi itna pyaara lagta hai ki bas dekhta hi rahoon meri Jyotuuu 🙈💞🌸"
+          </p>
+          <label class="change-photo-label">
+            📷 Change Photo
+            <input type="file" accept="image/*" hidden onchange="loadUserPhoto(event, 'img2')" />
+          </label>
         </div>
-    </div>
 
-    <script>
-        // ==========================================
-        // 1. TOAST NOTIFICATION HELPER
-        // ==========================================
-        let toastTimer;
-        function showToast(message, icon = "✨") {
-            const toast = document.getElementById("royalToast");
-            document.getElementById("toastMessage").textContent = message;
-            document.getElementById("toastIcon").textContent = icon;
-            toast.classList.remove("opacity-0", "-translate-y-4");
-            toast.classList.add("opacity-100", "translate-y-0");
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove("opacity-100", "translate-y-0");
-                toast.classList.add("opacity-0", "-translate-y-4");
-            }, 3800);
-        }
+        <!-- Photo 3 -->
+        <div class="photo-card">
+          <div class="photo-frame">
+            <button class="rotate-mini-btn" onclick="toggleRotate('img3')">🔄 Rotate</button>
+            <img id="img3" src="1000169889_2.jpg" alt="Jyotuuu Photo 3" onerror="this.src='photo3.jpg'" />
+          </div>
+          <p class="beauty-caption">
+            "Chashme mein apki yeh masoom si ada aur natural glow... duniya ki sabse khoobsurat ladki sirf meri hai 🌷🤌🏻💗"
+          </p>
+          <label class="change-photo-label">
+            📷 Change Photo
+            <input type="file" accept="image/*" hidden onchange="loadUserPhoto(event, 'img3')" />
+          </label>
+        </div>
+      </div>
+    </section>
 
-        // ==========================================
-        // 2. MUSIC PLAYER ("her" by JVKE + Gentle Chime Fallback)
-        // ==========================================
-        let ytPlayer = null;
-        let isPlaying = false;
-        let ytReady = false;
-        let fallbackLoop = null;
+    <!-- Love Letter Section -->
+    <section class="card letter-box">
+      <h2 class="section-title">A Special Letter For You 💌</h2>
+      <p class="section-sub">Apke pagal Himansu ke dil ki baat sirf apke liye 🫶🏻</p>
+      <button class="open-letter-btn" onclick="toggleLetter()">💌 Tap to Open My Heart Letter</button>
 
-        // Load YouTube IFrame API asynchronously for JVKE - "her"
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      <div id="letter-paper" class="letter-paper">
+        <p><strong>HAPPYYYY PRINCESS DAYYYYY MERIIIIII JYOTUUUUUUUUU 👑😭🌸💗✨🤌🏻🫶🏻🌷💞</strong></p>
+        <p>Meri pyaariiiii si Jyotuuuuuu 😭🌸💗👑✨ aaj apka din haiiii aur mai apni sabse beautiful princess ko batana chahta hoon ki ap mere liye kitni zyada special hain 😭💗🌷🤌🏻✨ apki woh cute si smileeeee 🌸 apki pyari pyari baatein 😭💞 apka gussa hona 🙈💗 apka mujhe daantna 😭🤌🏻 aur apki woh chhoti chhoti harkatein sab kuch mere liye bohot precious haiiii 🌷💗✨</p>
+        <p>Babyyyyyy 🫶🏻💗 mai chahta hoon ki apki life hamesha khushiyon se bhari rahe 🌸🌷✨ apke saare dreams complete ho 😭💗 apko har woh happiness mile jo ap deserve karti hain 🤌🏻🌸👑 ap kabhi khud ko kam mat samajhna meri Princess because ap apni jagah bohot special hain 😭🌸💞</p>
+        <p>Aur meri Jyotuuuuuu 🙈😭💗 mai hamesha apni mistakes samajhne aur khud ko better banane ki koshish karunga 🫶🏻💗 mai chahta hoon ki apko mere saath respected loved aur understood feel ho 🌷✨🤌🏻</p>
+        <p>Hamesha aise hi smile karte rehna meri Jyotuuuuuu 😭🌸💗🙈 apki smile bohot precious haiiii aur please apne dreams ko kabhi chhodna matttt 👑💞🌷 mai hamesha apko grow karte hue aur apni life mein successful hote hue dekhna chahta hoon ✨💗🌸</p>
+        <p><strong>ONCE AGAIN HAPPYYYY PRINCESS DAYYYYY MERIIIIII JYOTUUUUUUUUU 😭😭🌸💗👑🤌🏻✨🫶🏻🌷💞🙈 AP MERI FAVOURITE PRINCESS HAINNNN 😭💗🌸✨🤌🏻</strong></p>
+      </div>
+    </section>
 
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('yt-player', {
-                height: '200',
-                width: '200',
-                videoId: 'f2612b1_h_s', // JVKE - her
-                playerVars: {
-                    autoplay: 0,
-                    loop: 1,
-                    playlist: 'f2612b1_h_s',
-                    controls: 0,
-                    playsinline: 1
-                },
-                events: {
-                    onReady: () => { ytReady = true; },
-                    onError: () => { ytReady = false; }
-                }
-            });
-        }
+    <!-- Pikachu Surprise & Rapunzel Lantern Show -->
+    <section class="card">
+      <h2 class="section-title">Magical Princess Surprises ✨</h2>
+      <p class="section-sub">Dono buttons par click karke apna surprise dekho meri jaan 💗</p>
+      <div class="surprise-actions">
+        <button class="pika-btn" onclick="openPikachu()">⚡ Open Pikachu Surprise</button>
+        <button class="lantern-btn" onclick="startLanternShow()">🏮 Start Rapunzel Lantern Show</button>
+      </div>
+    </section>
 
-        // Soft romantic piano-like Tone.js fallback melody in case YouTube embed is blocked offline
-        async function startRomanticFallbackMelody() {
-            if (typeof Tone === "undefined") return;
-            await Tone.start();
-            const synth = new Tone.PolySynth(Tone.Synth, {
-                oscillator: { type: "sine" },
-                envelope: { attack: 0.4, decay: 0.8, sustain: 0.4, release: 1.8 }
-            }).toDestination();
-            synth.volume.value = -12;
+    <!-- Lifetime Princess Treatment Pass -->
+    <section class="card">
+      <h2 class="section-title">Royal VIP Privilege 🎟️</h2>
+      <p class="section-sub">Valid forever — sirf meri Jyotuuu ke liye 👑</p>
 
-            const chords = [
-                ["C4", "E4", "G4", "B4"],
-                ["A3", "C4", "E4", "G4"],
-                ["F3", "A3", "C4", "E4"],
-                ["G3", "B3", "D4", "F4"]
-            ];
-            let step = 0;
-            fallbackLoop = setInterval(() => {
-                if (!isPlaying) return;
-                synth.triggerAttackRelease(chords[step % chords.length], "2n");
-                step++;
-            }, 2400);
-        }
-
-        function stopRomanticFallbackMelody() {
-            if (fallbackLoop) {
-                clearInterval(fallbackLoop);
-                fallbackLoop = null;
-            }
-        }
-
-        function toggleMusic() {
-            const btnText = document.getElementById("musicBtnText");
-            const btnIcon = document.getElementById("musicBtnIcon");
-            const disc = document.getElementById("vinylDisc");
-            const eq = document.getElementById("musicEqualizer");
-
-            if (!isPlaying) {
-                isPlaying = true;
-                btnText.textContent = "Pause";
-                btnIcon.textContent = "⏸️";
-                disc.classList.add("animate-spin");
-                eq.classList.remove("hidden");
-
-                if (ytReady && ytPlayer && typeof ytPlayer.playVideo === "function") {
-                    ytPlayer.playVideo();
-                    showToast('Playing "her" by JVKE for Princess Jyotuuu 🎵💗', "🎶");
-                } else {
-                    startRomanticFallbackMelody();
-                    showToast('Playing Royal Princess Melody for Jyotuuu 🎵💗', "🎶");
-                }
-            } else {
-                isPlaying = false;
-                btnText.textContent = "Play Song";
-                btnIcon.textContent = "▶️";
-                disc.classList.remove("animate-spin");
-                eq.classList.add("hidden");
-
-                if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === "function") {
-                    ytPlayer.pauseVideo();
-                }
-                stopRomanticFallbackMelody();
-                showToast("Music paused", "🎵");
-            }
-        }
-
-        // ==========================================
-        // 3. INTERACTIVE LOVE LETTER REVEAL
-        // ==========================================
-        let letterOpened = false;
-        function toggleLetter() {
-            const content = document.getElementById("letterContent");
-            const btn = document.getElementById("openLetterBtn");
-            letterOpened = !letterOpened;
-
-            if (letterOpened) {
-                content.classList.remove("hidden");
-                btn.innerHTML = "<span>Close Letter</span> <span>💌</span>";
-                spawnBurstParticles(window.innerWidth / 2, window.innerHeight / 2, 35, "heart");
-                showToast("Read every word carefully, meri Princess 💗", "👑");
-            } else {
-                content.classList.add("hidden");
-                btn.innerHTML = "<span>Open Your Princess Day Letter</span> <span>👑✨</span>";
-            }
-        }
-
-        // ==========================================
-        // 4. PIKACHU SURPRISE REVEAL
-        // ==========================================
-        function revealPikachu() {
-            const placeholder = document.getElementById("pikachuPlaceholder");
-            const revealed = document.getElementById("pikachuRevealed");
-            const btn = document.getElementById("pikachuBtn");
-
-            placeholder.classList.add("hidden");
-            revealed.classList.remove("hidden");
-            revealed.classList.add("flex");
-            btn.textContent = "Send More Pika-Love ⚡💗";
-
-            // Spawn cute yellow & pink heart confetti
-            const rect = btn.getBoundingClientRect();
-            spawnBurstParticles(rect.left + rect.width / 2, rect.top, 40, "pika");
-            showToast("Pika-Pika! I love you Jyotuuu! Apka pagal Himansu ⚡💗", "💛");
-        }
-
-        // ==========================================
-        // 5. RAPUNZEL FLOATING LANTERN SHOW & PARTICLE ENGINE
-        // ==========================================
-        const canvas = document.getElementById("magicCanvas");
-        const ctx = canvas.getContext("2d");
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener("resize", () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
-
-        const ambientParticles = [];
-        const burstParticles = [];
-        const lanterns = [];
-        let lanternMode = false;
-
-        const lanternWishes = [
-            "Jyotuuu 👑",
-            "My Favorite Princess",
-            "Always Shine ✨",
-            "Forever Yours 💗",
-            "Stay Happy 🌸",
-            "Apka Himansu"
-        ];
-
-        // Initialize gentle floating sparkles & petals
-        for (let i = 0; i < 38; i++) {
-            ambientParticles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                size: Math.random() * 4 + 2,
-                speedY: -(Math.random() * 0.45 + 0.15),
-                speedX: (Math.random() - 0.5) * 0.4,
-                alpha: Math.random() * 0.7 + 0.2,
-                type: Math.random() > 0.5 ? "sparkle" : "petal",
-                color: Math.random() > 0.5 ? "#f472b6" : "#fbbf24"
-            });
-        }
-
-        function spawnBurstParticles(x, y, count, theme = "heart") {
-            const colors = theme === "pika"
-                ? ["#facc15", "#f59e0b", "#ec4899", "#fb7185"]
-                : ["#ec4899", "#f43f5e", "#f59e0b", "#c084fc", "#fde047"];
-
-            for (let i = 0; i < count; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
-                burstParticles.push({
-                    x,
-                    y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - 2,
-                    size: Math.random() * 8 + 5,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    life: 1,
-                    decay: Math.random() * 0.018 + 0.012
-                });
-            }
-        }
-
-        function createLantern(startFromBottom = true) {
-            return {
-                x: Math.random() * (width - 60) + 30,
-                y: startFromBottom ? height + Math.random() * 250 : Math.random() * height,
-                w: Math.random() * 18 + 26,
-                h: Math.random() * 24 + 36,
-                speedY: -(Math.random() * 1.1 + 0.65),
-                swayOffset: Math.random() * Math.PI * 2,
-                swaySpeed: Math.random() * 0.02 + 0.01,
-                wish: Math.random() > 0.65 ? lanternWishes[Math.floor(Math.random() * lanternWishes.length)] : ""
-            };
-        }
-
-        function triggerLanternShow() {
-            lanternMode = true;
-            document.body.classList.add("lantern-night");
-            document.getElementById("dayModeBtn").classList.remove("hidden");
-            document.getElementById("lanternShowBtn").textContent = "Launch More Lanterns 🏮✨";
-            document.getElementById("lanternStatusText").textContent = "The royal sky is glowing for Jyotuuu! 🏮✨";
-
-            for (let i = 0; i < 24; i++) {
-                lanterns.push(createLantern(true));
-            }
-            showToast("Rapunzel Royal Lantern Show started for Jyotuuu! 🏮✨", "🏮");
-        }
-
-        function stopLanternNight() {
-            lanternMode = false;
-            lanterns.length = 0;
-            document.body.classList.remove("lantern-night");
-            document.getElementById("dayModeBtn").classList.add("hidden");
-            document.getElementById("lanternShowBtn").textContent = "✨ Light Up Rapunzel's Sky 🏮";
-            document.getElementById("lanternStatusText").textContent = "Ready to illuminate the sky ✨";
-        }
-
-        // ==========================================
-        // 5B. PHOTO GALLERY FALLBACK & LOCAL UPLOAD PICKER
-        // ==========================================
-        function handleImageFallback(imgEl, altFilename, labelText) {
-            if (!imgEl.dataset.triedAlt) {
-                imgEl.dataset.triedAlt = "1";
-                imgEl.classList.add("custom-uploaded");
-                imgEl.src = altFilename;
-            } else {
-                imgEl.onerror = null;
-                imgEl.classList.add("custom-uploaded");
-                imgEl.src = `https://placehold.co/600x800/fbcfe8/9d174d?text=${encodeURIComponent(labelText)}`;
-            }
-        }
-
-        function replacePrincessPhoto(event, imgId) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgEl = document.getElementById(imgId);
-                imgEl.src = e.target.result;
-                imgEl.classList.add("custom-uploaded");
-                spawnBurstParticles(window.innerWidth / 2, window.innerHeight / 2, 25, "heart");
-                showToast("Princess photo updated! Looking gorgeous 🌸💗", "📸");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function drawHeart(x, y, size, color, alpha) {
-            ctx.save();
-            ctx.globalAlpha = alpha;
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
-            ctx.bezierCurveTo(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
-            ctx.fill();
-            ctx.restore();
-        }
-
-        function drawLantern(l) {
-            ctx.save();
-            const grad = ctx.createRadialGradient(l.x, l.y, 2, l.x, l.y, l.h * 1.1);
-            grad.addColorStop(0, "rgba(255, 251, 235, 0.98)");
-            grad.addColorStop(0.45, "rgba(251, 191, 36, 0.88)");
-            grad.addColorStop(0.8, "rgba(245, 158, 11, 0.45)");
-            grad.addColorStop(1, "rgba(245, 158, 11, 0)");
-
-            // Outer ambient halo
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(l.x, l.y, l.h * 1.1, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Lantern silhouette
-            ctx.fillStyle = "#f59e0b";
-            ctx.beginPath();
-            ctx.roundRect(l.x - l.w / 2, l.y - l.h / 2, l.w, l.h, 6);
-            ctx.fill();
-
-            // Inner bright flame core
-            ctx.fillStyle = "#fef9c3";
-            ctx.beginPath();
-            ctx.roundRect(l.x - l.w * 0.32, l.y - l.h * 0.3, l.w * 0.64, l.h * 0.65, 4);
-            ctx.fill();
-
-            // Optional floating wish label
-            if (l.wish) {
-                ctx.font = "600 11px 'Plus Jakarta Sans', sans-serif";
-                ctx.fillStyle = "rgba(254, 240, 138, 0.92)";
-                ctx.textAlign = "center";
-                ctx.fillText(l.wish, l.x, l.y + l.h / 2 + 14);
-            }
-            ctx.restore();
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-
-            // 1. Ambient sparkles & petals
-            for (const p of ambientParticles) {
-                p.y += p.speedY;
-                p.x += p.speedX;
-                if (p.y < -10) {
-                    p.y = height + 10;
-                    p.x = Math.random() * width;
-                }
-                ctx.save();
-                ctx.globalAlpha = p.alpha;
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
-            // 2. Rapunzel Floating Lanterns
-            if (lanternMode) {
-                if (lanterns.length < 28 && Math.random() < 0.05) {
-                    lanterns.push(createLantern(true));
-                }
-                for (let i = lanterns.length - 1; i >= 0; i--) {
-                    const l = lanterns[i];
-                    l.y += l.speedY;
-                    l.swayOffset += l.swaySpeed;
-                    l.x += Math.sin(l.swayOffset) * 0.55;
-                    drawLantern(l);
-                    if (l.y < -80) {
-                        lanterns.splice(i, 1);
-                    }
-                }
-            }
-
-            // 3. Celebratory Heart & Confetti Bursts
-            for (let i = burstParticles.length - 1; i >= 0; i--) {
-                const bp = burstParticles[i];
-                bp.x += bp.vx;
-                bp.y += bp.vy;
-                bp.vy += 0.14; // gentle gravity
-                bp.life -= bp.decay;
-                if (bp.life <= 0) {
-                    burstParticles.splice(i, 1);
-                } else {
-                    drawHeart(bp.x, bp.y, bp.size, bp.color, bp.life);
-                }
-            }
-
-            requestAnimationFrame(animateCanvas);
-        }
-
-        // ==========================================
-        // 6. LIFETIME ROYAL PRINCESS TREATMENT PASS
-        // ==========================================
-        let passActivated = false;
-        function activatePrincessPass() {
-            const card = document.getElementById("vipPassCard");
-            const badge = document.getElementById("passStatusBadge");
-            const timestampEl = document.getElementById("passTimestamp");
-            const notice = document.getElementById("passActivatedNotice");
-            const btn = document.getElementById("activatePassBtn");
-
-            const now = new Date();
-            const formattedDate = now.toLocaleDateString("en-IN", {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            });
-            const formattedTime = now.toLocaleTimeString("en-IN", {
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-
-            passActivated = true;
-            card.classList.add("vip-pass-active");
-            badge.textContent = "ACTIVATED FOREVER ✅";
-            badge.className = "px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-extrabold uppercase tracking-wide shadow";
-            timestampEl.textContent = `ACTIVATED FOREVER ✅ (${formattedDate}, ${formattedTime})`;
-            timestampEl.className = "text-sm font-extrabold text-emerald-700";
-
-            btn.classList.add("hidden");
-            notice.classList.remove("hidden");
-
-            const rect = card.getBoundingClientRect();
-            spawnBurstParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 65, "heart");
-            showToast("Ab jaldi se iska screenshot le lo meri Princess 📸💗", "🎉");
-        }
-
-        // Generate a downloadable PNG image of her activated pass as a bonus helper
-        function downloadPassCard() {
-            const offCanvas = document.createElement("canvas");
-            offCanvas.width = 900;
-            offCanvas.height = 540;
-            const c = offCanvas.getContext("2d");
-
-            // Gold & Pink VIP Background
-            const bg = c.createLinearGradient(0, 0, 900, 540);
-            bg.addColorStop(0, "#fff1f2");
-            bg.addColorStop(0.5, "#fef08a");
-            bg.addColorStop(1, "#fce7f3");
-            c.fillStyle = bg;
-            c.fillRect(0, 0, 900, 540);
-
-            // Outer Gold Border
-            c.strokeStyle = "#d97706";
-            c.lineWidth = 12;
-            c.strokeRect(20, 20, 860, 500);
-
-            // Title
-            c.fillStyle = "#9d174d";
-            c.font = "bold 34px Georgia, serif";
-            c.textAlign = "center";
-            c.fillText("👑 OFFICIAL LIFETIME PRINCESS TREATMENT PASS 👑", 450, 95);
-
-            c.fillStyle = "#047857";
-            c.font = "bold 24px sans-serif";
-            c.fillText("STATUS: OFFICIALLY ACTIVATED • VALID FOREVER ✅", 450, 145);
-
-            // Details
-            c.fillStyle = "#1f2937";
-            c.font = "bold 26px sans-serif";
-            c.fillText("Pass Holder: Princess Jyotuuu 🌸💗", 450, 220);
-            c.fillText("Issued With Love By: Apka Pagal Himansu ✨", 450, 270);
-
-            c.font = "20px sans-serif";
-            c.fillStyle = "#4b5563";
-            c.fillText("Includes: Unlimited Pampering • Endless Patience • Forever Love & Respect", 450, 345);
-
-            const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-            c.fillStyle = "#b45309";
-            c.font = "bold 20px sans-serif";
-            c.fillText(`Activated on: ${today} • Happy Princess Day!`, 450, 440);
-
-            const link = document.createElement("a");
-            link.download = "Princess_Jyotuuu_Lifetime_Pass.png";
-            link.href = offCanvas.toDataURL("image/png");
-            link.click();
-            showToast("Official Princess Pass downloaded! Send it to Himansu 💗", "📥");
-        }
-
-        // Start animation loop on window load
-        window.onload = function () {
-            animateCanvas();
-        };
-    </script>
-</body>
-</html>
+      <div class="vip-pass" id="vip-pass-card">
+        <div class="pass-header">
+          <div>
+            <div 
